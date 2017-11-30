@@ -6,28 +6,30 @@
 package library;
 
 import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 /**
  *
  * @author kernelpanic
  */
 class ISBNCode {
+
     final String value;
-    static final  Pattern  ISBNPattern = Pattern.compile("[\\d]{1,4}[-|\\s]");
+    static final Pattern ISBNPattern = Pattern.compile("[\\d]+");
 
     public ISBNCode(String value) {
-        if(isValidISBN(value)){
+        if (isValidISBN(value)) {
             this.value = value;
-        }else{
+        } else {
             throw new IllegalArgumentException("Invalid ISBN code.");
         }
     }
 
     private boolean isValidISBN(String value) {
-        String[] t = value.split("-");
-        
-        for (String it : t){
-            
+        if (value.length() != 10) {
+            return false;
         }
+
+        return ISBNPattern.matcher(value).matches();
     }
 }
