@@ -5,19 +5,23 @@
  */
 package library;
 
-import java.util.Objects;
-
 /**
  *
  * @author kernelpanic
  */
-class BookCopy {
+public class BookCopy {
+
     ISBNCode id;
     LibraryPlace place;
+    private boolean onHands;
 
-    public BookCopy(ISBNCode id, LibraryPlace place) {
+    public BookCopy(ISBNCode id, long inventoryNumber) {
         this.id = id;
-        this.place = place;
+        this.onHands = false;
+    }
+
+    public void setOnHands(boolean onHands) {
+        this.onHands = onHands;
     }
 
     public ISBNCode getId() {
@@ -28,35 +32,8 @@ class BookCopy {
         return place;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 11 * hash + Objects.hashCode(this.id);
-        hash = 11 * hash + Objects.hashCode(this.place);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        
-        if (obj == null) {
-            return false;
-        }
-        
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-
-        final BookCopy other = (BookCopy) obj;
-
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-
-        return Objects.equals(this.place, other.place);
+    boolean isOnHands() {
+        return onHands;
     }
 
 }

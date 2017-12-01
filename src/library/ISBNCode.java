@@ -6,17 +6,22 @@
 package library;
 
 import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 
 /**
  *
  * @author kernelpanic
  */
-class ISBNCode {
+public class ISBNCode {
 
     final String value;
     static final Pattern ISBNPattern = Pattern.compile("[\\d]+");
 
+    @Override
+    public String toString() {
+        return value;
+    }
+
+    
     public ISBNCode(String value) {
         if (isValidISBN(value)) {
             this.value = value;

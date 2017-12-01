@@ -27,7 +27,8 @@ public class Book {
     int copiesNumber;
     List<BookCopy> copies;
 
-    public Book(ISBNCode ID, String name, String Author, String publicationPlace, String publisher, Year pubYear, int pageCount, BigDecimal price) {
+    public Book(ISBNCode ID, String name, String Author, String publicationPlace, String publisher, Year pubYear, int pageCount, BigDecimal price, int copiesNumber) {
+        
         this.ID = ID;
         this.name = name;
         this.Author = Author;
@@ -36,11 +37,31 @@ public class Book {
         this.pubYear = pubYear;
         this.pageCount = pageCount;
         this.price = price;
-        this.copiesNumber = 0;
+        this.copiesNumber = copiesNumber;
+        
+        for (int i = 0; i < copiesNumber; i++) {
+            addCopy();
+        }
     }
-    
-    public void addCopy(int rack, byte shelf){
-        copies.add(new BookCopy(ID, new LibraryPlace(rack, shelf)));
+
+    public void addCopy() {
+        final List<BookCopy> availableCopies = getAvailableCopies();
+
+        if (availableCopies.size() <= copies.size()) {
+            copies.get(availableCopies.size()).setOnHands(false);
+        } else {
+            copies.add(new BookCopy(ID, Library.newInventoryNumber()));
+        }
+    }
+
+    public void handOut() {
+        final List<BookCopy> availableCopies = getAvailableCopies();
+
+        if (availableCopies.isEmpty()) {
+            throw new RuntimeException("No copies left.");
+        }
+
+        availableCopies.get(availableCopies.size() - 1).setOnHands(true);
     }
 
     public ISBNCode getID() {
@@ -77,6 +98,18 @@ public class Book {
 
     public int getCopiesNumber() {
         return copiesNumber;
+    }
+
+    public List<BookCopy> getAvailableCopies() {
+        List<BookCopy> avaliable = new ArrayList<>(copies.size());
+
+        for (BookCopy x : copies) {
+            if (!x.isOnHands()) {
+                avaliable.add(x);
+            }
+        }
+
+        return avaliable;
     }
 
 }

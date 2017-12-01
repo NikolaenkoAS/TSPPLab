@@ -9,7 +9,7 @@ package library;
  *
  * @author kernelpanic
  */
-class LibraryPlace {
+public class LibraryPlace {
     final int rack;
     final byte shelf;
 
